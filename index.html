@@ -549,11 +549,14 @@
             }
             .numpad-grid {
                 gap: 8px !important; /* ลดช่องว่างปุ่ม */
+                max-width: 260px !important;
             }
             .num-btn {
                 width: 55px !important;
                 height: 55px !important;
                 font-size: 1.3rem !important;
+                background: white !important;
+                border-radius: 50% !important;
             }
 
             /* 5. ซองจดหมาย (Envelope) */
@@ -562,15 +565,23 @@
                 margin: 10px auto !important;
             }
 
-            /* 6. จดหมาย (Letter) */
+            /* 6. จดหมาย (Letter) - FIX: LATEST (แก้ปัญหาล้นจอ) */
             .letter-card {
                 padding: 20px 15px !important;
-                max-height: 80vh !important;
-                overflow-y: auto !important;
+                max-height: 75vh !important; /* จำกัดความสูงไม่ให้ล้น */
+                overflow-y: auto !important; /* ให้เลื่อนได้ */
+                width: 100% !important; /* ยืดเต็ม Container */
+                box-sizing: border-box !important;
+                margin-bottom: 20px !important;
             }
             .letter-content p {
                 font-size: 0.95rem !important;
                 margin-bottom: 10px !important;
+            }
+            .letter-img {
+                width: 100% !important; /* ให้รูปยืดเต็มกล่องจดหมาย */
+                max-width: 100% !important;
+                height: auto !important;
             }
         }
     </style>
@@ -664,7 +675,7 @@
                     <p>ทุกช่วงเวลาที่มีเธออยู่ข้าง ๆ</p>
                     <p>มันคือความสุขที่หาสิ่งใดเปรียบไม่ได้</p>
                     <p>รักน้าาาาาา</p>
-                    <p><b style="color: var(--primary); font-size: 1.3rem;">Happy Valentine's Day💖</b></p>
+                    <p><b style="color: var(--primary); font-size: 1.3rem;">Happy Valentine's Day 💖</b></p>
                     
                      <img src="2.jpg" alt="Cute Icon" class="cute-img letter-img">
                 </div>
@@ -853,4 +864,3 @@
     </script>
 </body>
 </html>
-
