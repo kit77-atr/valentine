@@ -587,6 +587,24 @@
             }
         }
     </style>
+    <style>
+        @media screen and (max-width: 768px) {
+            #page-envelope {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100% !important;
+            }
+            .envelope-wrapper {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                left: auto !important;
+                right: auto !important;
+                transform: scale(0.7) !important; 
+                transform-origin: center center !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -603,12 +621,10 @@
     <div class="container">
         
         <div id="page-welcome" class="page active">
-            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yZ7Xya4covzN1WhOAa/giphy.webp" class="gif-cartoon gif-top-right" alt="hi">
-            <h1>สุขสันต์วันวาเลนไทน์ 💖</h1>
+         
             <p style="margin-bottom: 40px; color: var(--text-deep); font-size: 1.1rem;">เซอร์ไพรส์เล็กๆ สำหรับคนพิเศษ</p>
             <button class="btn-start" onclick="startSurprise()">🍭 START</button>
-            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wvYNSqBAMDVx8CEYkt/giphy.webp" class="gif-cartoon gif-bottom-left" alt="cat">
-        </div>
+           
 
         <div id="page-loading" class="page">
             <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7J4WxAd5J9nLLMYKmA/200.webp" class="gif-loading" alt="loading bear">
