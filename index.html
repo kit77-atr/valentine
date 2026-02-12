@@ -559,14 +559,6 @@
                 border-radius: 50% !important;
             }
 
-            /* 5. ซองจดหมาย (Envelope) - ขั้นเด็ดขาด */
-            .envelope-wrapper {
-                /* ใช้ transform: scale() บีบลงให้เล็กกว่าจอ */
-                transform: scale(0.7) !important; 
-                /* จัด Margin ติดลบเพื่อชดเชยพื้นที่ว่างจากการ scale */
-                margin: -20px auto !important; 
-            }
-
             /* 6. จดหมาย (Letter) - FIX: LATEST (แก้ปัญหาล้นจอ) */
             .letter-card {
                 padding: 20px 15px !important;
@@ -586,21 +578,26 @@
                 height: auto !important;
             }
         }
-    </style>
-    <style>
+        
+        /* ✨ ULTIMATE FIX: ENVELOPE (ส่วนแก้ซองจดหมาย) */
         @media screen and (max-width: 768px) {
             #page-envelope {
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
+                justify-content: center !important;
                 width: 100% !important;
+                overflow: hidden !important;
             }
+            
             .envelope-wrapper {
-                margin-left: auto !important;
-                margin-right: auto !important;
+                /* ย่อซองลง 60% เพื่อให้พอดีจอเล็ก */
+                transform: scale(0.6) !important; 
+                /* จัดให้อยู่ตรงกลางเป๊ะๆ */
+                margin: 0 auto !important; 
                 left: auto !important;
                 right: auto !important;
-                transform: scale(0.7) !important; 
+                /* ปรับ transform-origin ให้ย่อจากตรงกลาง */
                 transform-origin: center center !important;
             }
         }
@@ -621,9 +618,11 @@
     <div class="container">
         
         <div id="page-welcome" class="page active">
+            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yZ7Xya4covzN1WhOAa/giphy.webp" class="gif-cartoon gif-top-right" alt="hi">
             <h1>สุขสันต์วันวาเลนไทน์ 💖</h1>
             <p style="margin-bottom: 40px; color: var(--text-deep); font-size: 1.1rem;">เซอร์ไพรส์เล็กๆ สำหรับคนพิเศษ</p>
             <button class="btn-start" onclick="startSurprise()">🍭 START</button>
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wvYNSqBAMDVx8CEYkt/giphy.webp" class="gif-cartoon gif-bottom-left" alt="cat">
         </div>
 
         <div id="page-loading" class="page">
