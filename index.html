@@ -21,6 +21,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            /* ป้องกันการแตะซ้ำๆ แล้วขยายจอในบาง browser */
+            touch-action: manipulation;
         }
 
         body {
@@ -28,11 +30,14 @@
             background-color: var(--bg-cream);
             background-image: radial-gradient(var(--secondary) 1px, transparent 1px);
             background-size: 25px 25px;
+            /* ใช้ dvh เพื่อให้เต็มจอจริง ๆ ในมือถือ (รวม address bar) */
             height: 100vh;
+            height: 100dvh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* ห้ามเลื่อนหน้าจอหลักเด็ดขาด */
             color: var(--text-deep);
             position: relative;
         }
@@ -46,6 +51,8 @@
             height: 100%;
             overflow: hidden;
             z-index: -1;
+            margin: 0;
+            padding: 0;
         }
 
         .bg-hearts li {
@@ -76,14 +83,23 @@
         .container {
             width: 90%;
             max-width: 420px;
+            /* ปรับความสูงให้ยืดหยุ่นและไม่เกินหน้าจอ */
+            max-height: 95dvh;
             text-align: center;
             position: relative;
             padding: 20px;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         /* --- 🔄 Page Transitions --- */
-        .page { display: none; }
+        .page { 
+            display: none; 
+            width: 100%; /* ให้เนื้อหาเต็ม container */
+        }
         .active { display: block; }
 
         @keyframes bounceInDown {
@@ -110,25 +126,33 @@
 
         /* --- 🎀 UI Elements --- */
         h1 {
-            font-size: 2.2rem;
+            font-size: 2rem; /* ปรับขนาดฟอนต์ให้พอดีมือถือ */
             margin-bottom: 15px;
             color: var(--primary);
             font-weight: 600;
             text-shadow: 2px 2px 0px var(--light-pink);
+            line-height: 1.2;
         }
-        h2 { color: var(--primary); margin-bottom: 20px; }
+        h2 { 
+            color: var(--primary); 
+            margin-bottom: 15px; 
+            font-size: 1.6rem;
+        }
 
         .btn-start, .btn-submit {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
-            padding: 15px 40px;
+            padding: 12px 35px; /* ลด padding ลงเล็กน้อย */
             border-radius: 50px;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-family: 'Mitr', sans-serif;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(255, 107, 129, 0.4);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: auto;
+            max-width: 100%;
+            white-space: nowrap;
         }
 
         .btn-start:hover, .btn-submit:hover {
@@ -142,12 +166,12 @@
             background-color: var(--white);
             border-radius: 25px;
             padding: 5px;
-            margin-top: 30px;
+            margin-top: 20px;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 5px 15px rgba(255, 154, 158, 0.3);
         }
 
         .progress-bar {
-            height: 25px;
+            height: 20px; /* ลดความสูงเล็กน้อย */
             background: repeating-linear-gradient(45deg, var(--secondary), var(--secondary) 10px, var(--light-pink) 10px, var(--light-pink) 20px);
             border-radius: 20px;
             width: 0%;
@@ -159,31 +183,42 @@
         /* --- 🔑 Password Screen --- */
         .cute-img-container {
             position: relative;
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 25px;
+            width: 130px; /* ปรับขนาดให้พอดีมือถือ */
+            height: 130px;
+            margin: 0 auto 20px;
+            padding: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.2);
+            border: 2px dashed var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
+
         .cute-img {
-            width: 100%; height: 100%;
+            width: 100%; 
+            height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            border: 6px solid var(--white);
-            box-shadow: 0 8px 25px rgba(255, 107, 129, 0.3);
+            border: none;
         }
+        
         .cute-img-container::after {
             content: '💖';
             position: absolute;
             top: 0; right: 0;
-            font-size: 30px;
+            font-size: 24px;
             animation: spinAround 5s linear infinite;
         }
-        @keyframes spinAround { from { transform: rotate(0deg) translateX(80px) rotate(0deg); } to { transform: rotate(360deg) translateX(80px) rotate(-360deg); } }
+        @keyframes spinAround { from { transform: rotate(0deg) translateX(70px) rotate(0deg); } to { transform: rotate(360deg) translateX(70px) rotate(-360deg); } }
 
         input[type="password"] {
-            padding: 15px;
+            padding: 12px;
             border-radius: 15px;
             border: 3px solid var(--light-pink);
-            width: 85%;
+            width: 100%; /* เต็มความกว้าง */
             font-size: 1.1rem;
             text-align: center;
             outline: none;
@@ -195,10 +230,10 @@
         /* --- 💌 Envelope Screen --- */
         .envelope-wrapper {
             position: relative;
-            width: 320px;
-            height: 220px;
+            width: 280px; /* ลดขนาดเริ่มต้นลงเพื่อให้ปลอดภัยในจอมือถือเล็ก */
+            height: 190px;
             background-color: var(--primary);
-            margin: 30px auto;
+            margin: 20px auto;
             border-radius: 10px;
             box-shadow: 0 20px 40px rgba(255, 107, 129, 0.4);
             cursor: pointer;
@@ -206,60 +241,70 @@
         }
         .envelope-wrapper:hover { transform: scale(1.05) rotate(-2deg); }
 
+        /* ปรับสัดส่วนซองจดหมายให้ Responsive */
         .envelope-flap {
             position: absolute; top: 0; left: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 120px solid var(--secondary);
+            border-left: 140px solid transparent; /* ปรับครึ่งหนึ่งของ width */
+            border-right: 140px solid transparent;
+            border-top: 110px solid var(--secondary);
             z-index: 2;
             transform-origin: top;
             transition: transform 0.6s;
+            width: 0; height: 0;
         }
         .envelope-body {
             position: absolute; bottom: 0; left: 0;
-            border-left: 160px solid var(--light-pink);
-            border-right: 160px solid var(--light-pink);
-            border-top: 110px solid transparent;
-            border-bottom: 110px solid var(--primary);
+            border-left: 140px solid var(--light-pink);
+            border-right: 140px solid var(--light-pink);
+            border-top: 100px solid transparent;
+            border-bottom: 95px solid var(--primary);
             z-index: 1;
+            width: 0; height: 0;
         }
         .sticker {
-            position: absolute; top: 55px; left: 50%;
+            position: absolute; top: 45px; left: 50%;
             transform: translateX(-50%);
-            font-size: 60px; z-index: 3;
+            font-size: 50px; z-index: 3;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
         }
 
-        /* --- 📜 Letter Screen (แก้ไขใหม่) --- */
+        /* --- 📜 Letter Screen --- */
         .letter-card {
             background: var(--white);
-            padding: 40px 30px;
+            padding: 25px 20px; /* Padding พอเหมาะ */
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             position: relative;
             border: 4px dotted var(--secondary);
             background-image: linear-gradient(to bottom, transparent 95%, var(--light-pink) 95%);
             background-size: 100% 30px;
-            animation: zoomIn 0.8s ease forwards; /* อนิเมชั่นกล่อง */
+            animation: zoomIn 0.8s ease forwards;
+            
+            width: 100%;
+            max-height: 75vh; /* กันล้นจอแนวตั้ง */
+            overflow-y: auto; /* ให้เลื่อนได้ถ้าข้อความยาว */
+            -webkit-overflow-scrolling: touch; /* เลื่อนลื่นบน iOS */
         }
+        
+        /* ซ่อน Scrollbar ของ letter-card แต่ยังเลื่อนได้ */
+        .letter-card::-webkit-scrollbar { width: 4px; }
+        .letter-card::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 
         .letter-content h2 {
             font-family: 'Mitr';
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
         }
 
-        /* แก้ไขส่วนข้อความให้แสดงผลแน่นอน */
         .letter-content p {
-            line-height: 1.8;
-            font-size: 1.15rem;
+            line-height: 1.6;
+            font-size: 1rem;
             color: #555;
-            margin-bottom: 15px;
-            /* เปลี่ยน logic: เริ่มต้น opacity 0 ใน keyframes แทนการซ่อนถาวร */
+            margin-bottom: 10px;
             animation: slideUpFade 0.8s ease both;
         }
 
-        /* ใช้ nth-of-type เพื่อให้นับลำดับ p ได้ถูกต้องแม่นยำกว่าเดิม */
         .letter-content p:nth-of-type(1) { animation-delay: 0.5s; }
         .letter-content p:nth-of-type(2) { animation-delay: 1.0s; }
         .letter-content p:nth-of-type(3) { animation-delay: 1.5s; }
@@ -272,26 +317,35 @@
         }
 
         .letter-img {
-            width: 100%; max-width: 260px;
-            border-radius: 15px; margin-top: 25px;
+            width: 100%; 
+            max-width: 220px; /* จำกัดขนาดรูป */
+            height: auto !important;
+            border-radius: 15px; 
+            margin-top: 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             border: 3px solid var(--white);
             transform: rotate(-3deg);
             opacity: 0; 
-            animation: zoomIn 0.8s ease 2.8s forwards; /* รูปมาทีหลังสุด */
+            animation: zoomIn 0.8s ease 2.8s forwards;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        /* ⬇️ ส่วนที่เพิ่มใหม่ (CSS สำหรับ Numpad) ⬇️ */
-        /* ซ่อน Input แบบเก่าโดยไม่ลบโค้ด */
+        .letter-img:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        
+        /* ⬇️ ส่วน Numpad ⬇️ */
         .input-group { display: none !important; }
 
-        /* กล่องแสดงผลรหัส (แสดงเป็นจุด) */
         .pin-display {
             background: white;
-            width: 80%;
-            height: 50px;
-            margin: 0 auto 20px;
-            border-radius: 15px;
+            width: 100%;
+            max-width: 280px;
+            height: 45px;
+            margin: 0 auto 15px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -302,226 +356,108 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        /* ตารางปุ่มกด */
         .numpad-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            gap: 10px; /* ระยะห่างปุ่ม */
             width: 100%;
-            max-width: 300px;
+            max-width: 280px; /* ความกว้างแผงปุ่ม */
             margin: 0 auto;
         }
 
-        /* ปุ่มตัวเลข */
         .num-btn {
-            background: white;
-            border: none;
-            height: 60px;
-            width: 60px;
-            border-radius: 50%;
-            font-size: 1.5rem;
+            background: linear-gradient(145deg, #ffffff, #fff0f3);
+            border: 1px solid #fecfef;
+            height: 50px; /* ความสูงปุ่ม */
+            width: 100%; /* เต็ม Grid cell */
+            border-radius: 15px; /* ปุ่มเหลี่ยมมนกดง่ายกว่าวงกลมบนมือถือ */
+            font-size: 1.4rem;
             color: var(--primary);
             font-family: 'Mitr', sans-serif;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin: 0 auto;
+            box-shadow: 0 4px 5px rgba(0,0,0,0.05);
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.1s;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* 3D Effect */
+            border-bottom: 3px solid #fecfef; 
         }
-        .num-btn:active { background: var(--light-pink); transform: scale(0.9); }
-        
-        /* ปุ่มพิเศษ (ลบ / ยืนยัน) */
-        .btn-del { color: #ff9a9e; font-size: 1.2rem; }
-        .btn-confirm { background: var(--primary); color: white; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4); }
-        .btn-confirm:active { background: #e05d72; }
-        /* ⬆️ จบส่วน CSS ที่เพิ่มใหม่ ⬆️ */
-
-        /* 🌸 NEW DECORATIONS STYLES (Added) 🌸 */
-        .cute-img-container {
-            padding: 10px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 10px 25px rgba(255, 107, 129, 0.2);
-            border: 2px dashed var(--secondary);
+        .num-btn:active { 
+            background: var(--light-pink); 
+            transform: translateY(2px); 
+            border-bottom: 0px solid transparent;
         }
         
-        .numpad-grid .num-btn {
-            background: linear-gradient(145deg, #ffffff, #fff0f3);
-            border: 1px solid #fecfef;
-            box-shadow: 5px 5px 10px #f7e6e9, -2px -2px 5px #ffffff;
-        }
-
-        .letter-card {
-            border: 2px solid #fecfef;
-            box-shadow: 0 20px 50px rgba(255, 107, 129, 0.15);
-            overflow: hidden;
-        }
-
-        .letter-card::before {
-            content: '';
-            position: absolute;
-            top: -50px; left: -50px;
-            width: 100px; height: 100px;
-            background: var(--light-pink);
-            border-radius: 50%;
-            opacity: 0.3;
-        }
-
-        .letter-img {
-            padding: 8px;
-            background: white;
-            border-radius: 4px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            border: 1px solid #eee;
-            transform: rotate(2deg) scale(1.05);
-            transition: transform 0.5s ease;
-        }
-        
-        .letter-img:hover {
-            transform: rotate(0deg) scale(1.1);
-        }
+        .btn-del { color: #ff9a9e; font-size: 1.1rem; }
+        .btn-confirm { background: var(--primary); color: white; border: none; border-bottom: 3px solid #d65064; }
+        .btn-confirm:active { background: #e05d72; border-bottom: 0px; }
 
         .success-msg .cute-img {
-            width: 120px;
-            height: 120px;
-            margin-top: 20px;
+            width: 100px;
+            height: 100px;
+            margin-top: 15px;
             border: 4px solid white;
             animation: zoomIn 1s ease;
         }
 
         #page-success {
             background: rgba(255, 255, 255, 0.4);
-            padding: 30px;
-            border-radius: 30px;
+            padding: 20px;
+            border-radius: 25px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.6);
+            width: 100%;
         }
 
-        /* 🎀 GIF CARTOON STYLES (New) 🎀 */
+        /* 🎀 GIF CARTOON STYLES 🎀 */
         .gif-cartoon {
-            width: 80px;
-            height: auto;
             position: absolute;
             pointer-events: none;
             z-index: 100;
+            max-width: 80px; /* จำกัดขนาดสูงสุด */
         }
-        .gif-bottom-right { bottom: -20px; right: -20px; width: 100px; }
-        .gif-bottom-left { bottom: -20px; left: -20px; width: 100px; }
-        .gif-top-right { top: -40px; right: -20px; width: 70px; }
-        .gif-loading { width: 120px; margin-bottom: 10px; }
+        
+        /* ปรับตำแหน่ง GIF ไม่ให้ล้นจอ */
+        .gif-bottom-right { 
+            bottom: -10px; right: -10px; width: 25vw; max-width: 90px; 
+            transform: rotate(-10deg);
+        }
+        .gif-bottom-left { 
+            bottom: -10px; left: -10px; width: 25vw; max-width: 90px;
+            transform: rotate(10deg);
+        }
+        
+        /* GIF ในหน้า Password ให้อยู่เหนือกล่อง */
+        #page-password .gif-top-right {
+            position: absolute;
+            top: -50px !important; /* ดึงขึ้นไปข้างบน */
+            right: 10px !important;
+            width: 60px !important;
+            transform: rotate(15deg);
+        }
+
+        .gif-loading { width: 100px; margin-bottom: 10px; }
         .gif-sticker { width: 60px; top: -30px; left: 50%; transform: translateX(-50%); }
 
-        /* --- 🔧 GIF & LAYOUT FIXES (ส่วนแก้ไขจัดวางใหม่ให้สวยและรองรับมือถือ) --- */
-        
-        /* 1. ปรับ Layout Container ให้สมดุลบนมือถือ */
-        .container {
-            width: 95% !important; /* ให้กว้างขึ้นบนมือถือ */
-            max-width: 450px !important;
-            min-height: 90vh; /* ให้เนื้อหาอยู่กลางจอสวยๆ */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 20px; /* เผื่อที่ด้านล่าง */
-        }
-
-        /* 2. จัดตำแหน่ง GIF ใหม่ให้ไม่บังและสวยงาม (Override) */
-        .gif-cartoon {
-            max-width: 25%; /* จำกัดขนาดไม่ให้ใหญ่เกิน 25% ของจอ */
-        }
-        
-        .gif-top-right {
-            top: 0 !important;
-            right: 0 !important;
-            transform: translate(20%, -30%); /* ให้โผล่มาแค่ครึ่งตัวแบบแอบมอง */
-        }
-
-        .gif-bottom-left {
-            bottom: 0 !important;
-            left: 0 !important;
-            transform: translate(-10%, 20%); /* ให้โผล่มาจากมุมล่างซ้าย */
-        }
-
-        .gif-bottom-right {
-            bottom: 0 !important;
-            right: 0 !important;
-            transform: translate(10%, 20%); /* ให้โผล่มาจากมุมล่างขวา */
-        }
-
-        /* GIF หน้าใส่รหัส: ให้เกาะอยู่บนกล่องข้อความ */
-        #page-password .gif-top-right {
-            top: unset !important;
-            bottom: 100% !important; /* ย้ายไปอยู่เหนือหัวข้อ */
-            right: 10% !important;
-            width: 70px !important;
-            transform: rotate(15deg) translateY(10px);
-        }
-
-        /* 3. ปรับขนาดรูปภาพประกอบให้ไม่ล้นจอ */
-        .letter-img, .cute-img {
-            max-width: 100% !important;
-            height: auto !important;
-        }
-        .cute-img-container {
-            width: 140px; /* ลดขนาดลงนิดหน่อยเพื่อให้มีที่เหลือ */
-            height: 140px;
-        }
-
-        /* 4. ปรับ Numpad ให้กดง่ายบนมือถือ */
-        .numpad-grid {
-            gap: 10px !important;
-        }
-        .num-btn {
-            width: 100% !important; /* ให้ยืดเต็ม Grid */
-            height: 55px !important; /* ความสูงที่กดง่าย */
-            max-width: 65px; /* ไม่ให้ใหญ่เกิน */
-        }
-
-        /* 5. ปรับหน้าจดหมายให้สวยงาม */
-        .letter-card {
-            padding: 30px 20px !important;
-            max-height: 85vh; /* กันไม่ให้ยาวเกินจอ */
-            overflow-y: auto; /* ถ้าข้อความยาวให้เลื่อนได้ */
-        }
-
-        /* --- 🔧 FIX: CENTER IMAGE in Password Page (เพิ่มใหม่เพื่อแก้รูปไม่ตรงกรอบ) --- */
-        #page-password .cute-img-container {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            overflow: hidden !important; /* ตัดส่วนเกินออกให้เป็นวงกลม */
-            box-sizing: border-box !important;
-        }
-        
-        #page-password .cute-img {
-            width: 100% !important;
-            height: 100% !important;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-            border: none !important;
-            box-shadow: none !important;
-        }
-
-        /* 🎵 Music Control Button (New) */
+        /* 🎵 Music Control Button */
         #music-control {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             z-index: 99999;
-            background: white;
-            width: 45px; height: 45px;
+            background: rgba(255,255,255,0.9);
+            width: 40px; height: 40px;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             animation: spinMusic 3s linear infinite;
         }
         @keyframes spinMusic { 100% { transform: rotate(360deg); } }
 
-        /* ✨ Gradient Background เคลื่อนไหวได้ */
+        /* ✨ Gradient Background Animation */
         body {
             background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffb3c1) !important;
             background-size: 400% 400% !important;
@@ -533,25 +469,15 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glassmorphism */
+        /* Glassmorphism Container */
         .container {
             background: rgba(255, 255, 255, 0.25) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             border-radius: 25px !important;
             border: 1px solid rgba(255, 255, 255, 0.5) !important;
             box-shadow: 0 8px 32px 0 rgba(255, 107, 129, 0.2) !important;
-        }
-
-        /* ปุ่มกดเด้งดึ๋ง 3D */
-        .num-btn, .btn-start, .btn-submit {
-            transition: all 0.1s !important;
-            border-bottom: 4px solid rgba(0,0,0,0.1) !important;
-        }
-        .num-btn:active, .btn-start:active, .btn-submit:active {
-            transform: translateY(4px) !important;
-            border-bottom: 0px solid transparent !important;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1) !important;
+            width: 92% !important; /* เหลือขอบเล็กน้อย */
         }
 
         #confetti-canvas {
@@ -562,7 +488,6 @@
             z-index: 9999;
         }
 
-        /* --- 🔧 FIX: HIDDEN MEDIA (เพื่อให้เสียงจาก MP4 ทำงาน) --- */
         #media-player {
             display: block !important;
             visibility: visible !important; 
@@ -574,6 +499,24 @@
             height: 1px !important;
             pointer-events: none !important;
             z-index: -100 !important;
+        }
+
+        /* --- 📱 MOBILE SPECIFIC ADJUSTMENTS (Ultimate Fix) --- */
+        @media screen and (max-height: 700px) {
+            .container { padding-top: 10px; padding-bottom: 10px; }
+            h1 { font-size: 1.8rem; margin-bottom: 10px; }
+            .cute-img-container { width: 100px; height: 100px; margin-bottom: 10px; }
+            .numpad-grid { gap: 5px; }
+            .num-btn { height: 45px; font-size: 1.2rem; }
+            .pin-display { height: 40px; margin-bottom: 10px; }
+            .letter-card { padding: 20px 15px; }
+        }
+
+        @media screen and (max-width: 360px) {
+            /* สำหรับจอเล็กมากๆ เช่น iPhone SE รุ่นเก่า */
+            .envelope-wrapper { transform: scale(0.85); margin: 10px auto; }
+            h1 { font-size: 1.6rem; }
+            .btn-start, .btn-submit { padding: 10px 25px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -593,13 +536,14 @@
         
         <div id="page-welcome" class="page active">
             <h1>สุขสันต์วันวาเลนไทน์ 💖</h1>
-            <p style="margin-bottom: 40px; color: var(--text-deep); font-size: 1.1rem;">เซอร์ไพรส์เล็กๆ สำหรับคนพิเศษ</p>
+            <p style="margin-bottom: 30px; color: var(--text-deep); font-size: 1.1rem;">เซอร์ไพรส์เล็กๆ สำหรับคนพิเศษ</p>
             <button class="btn-start" onclick="startSurprise()">🍭 START</button>
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7J4WxAd5J9nLLMYKmA/200.webp" class="gif-cartoon gif-bottom-right" alt="bear">
         </div>
 
         <div id="page-loading" class="page">
             <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7J4WxAd5J9nLLMYKmA/200.webp" class="gif-loading" alt="loading bear">
-            <h2 style="font-size: 1.5rem;">🧸 กำลังโหลดความรัก...</h2>
+            <h2 style="font-size: 1.4rem;">🧸 กำลังโหลดความรัก...</h2>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -607,7 +551,7 @@
         </div>
 
         <div id="page-password" class="page">
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xR5cPyPoL5HVXSphqA/giphy.webp" class="gif-cartoon gif-top-right" style="top: -20px;" alt="thinking">
+            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWRid3g0cXEzZWkyZXAzMzNmOHVpbThreTVrbXg5eDF0bnA2NHdoOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xR5cPyPoL5HVXSphqA/giphy.webp" class="gif-cartoon gif-top-right" alt="thinking">
             <h2>🔒 ใส่รหัสผ่าน</h2>
             <div class="cute-img-container">
                 <img src="1.jpg" alt="Cute Icon" class="cute-img">
@@ -629,17 +573,17 @@
                  <button class="num-btn" onclick="addPin('0')">0</button>
                  <button class="num-btn btn-confirm" onclick="checkNumpad()">💖</button>
              </div>
+             
             <div class="input-group">
                 <input type="password" id="passInput" placeholder="รหัสลับของเรา...">
-                <br>
                 <button class="btn-submit" onclick="checkPassword()">💌 ยืนยัน</button>
             </div>
-            <p class="hint" style="margin-top: 20px; color: var(--secondary);">คำใบ้: วันเดือน เกิด</p>
+            <p class="hint" style="margin-top: 15px; color: var(--secondary); font-size: 0.9rem;">คำใบ้: วันเดือน เกิด</p>
         </div>
 
         <div id="page-success" class="page">
-            <span class="success-icon" style="font-size: 80px; display: block; margin-bottom: 20px;">🎉</span>
-            <div class="success-msg" style="font-size: 1.8rem; color: var(--primary); font-weight: bold;">
+            <span class="success-icon" style="font-size: 60px; display: block; margin-bottom: 10px;">🎉</span>
+            <div class="success-msg" style="font-size: 1.5rem; color: var(--primary); font-weight: bold;">
                 รหัสถูกต้องนะคนเก่ง! 💖<br>
                 <span style="font-size: 1rem; color: #777;">ไปดูข้างในกันเถอะ...</span>
                 <br>
@@ -648,13 +592,14 @@
         </div>
 
         <div id="page-envelope" class="page">
-            <h3 style="margin-bottom: 25px; color: var(--text-deep);">มีจดหมายถึงเธอ... 💌</h3>
+            <h3 style="margin-bottom: 25px; color: var(--text-deep); font-size: 1.4rem;">มีจดหมายถึงเธอ... 💌</h3>
             <div class="envelope-wrapper" onclick="openLetter()">
                 <div class="envelope-flap"></div>
                 <div class="envelope-body"></div>
                 <div class="sticker">💖</div>
             </div>
             <p style="margin-top: 25px; color: var(--secondary); font-weight: 500;">แตะที่ซองเพื่อเปิดดูเลย!</p>
+            <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" class="gif-cartoon gif-bottom-left" style="width: 70px;" alt="heart">
         </div>
 
         <div id="page-letter" class="page">
@@ -666,7 +611,7 @@
                     <p>ขอบคุณที่เข้ามาเติมเต็มในชีวิตพี่</p>
                     <p>ทุกช่วงเวลาที่มีเธออยู่ข้าง ๆ</p>
                     <p>มันคือความสุขที่หาสิ่งใดเปรียบไม่ได้</p>
-                    <p><b style="color: var(--primary); font-size: 1.3rem;">สุขสันต์วันวาเลนไทน์นะ 💖</b></p>
+                    <p><b style="color: var(--primary); font-size: 1.2rem;">สุขสันต์วันวาเลนไทน์นะ 💖</b></p>
                     
                      <img src="2.jpg" alt="Cute Icon" class="cute-img letter-img">
                 </div>
@@ -689,7 +634,7 @@
         function startSurprise() {
             showPage('page-loading');
             runProgressBar();
-            playMusic(); // 🚀 เล่นเพลง
+            playMusic(); 
         }
 
         function runProgressBar() {
